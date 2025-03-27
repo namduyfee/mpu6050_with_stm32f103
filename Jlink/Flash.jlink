@@ -1,0 +1,9 @@
+device STM32F103C8
+speed 4000
+si SWD
+r
+h
+loadfile D:/My_compass_ver1/Bin/mpu_6050.hex 0x08000000
+r
+g
+exit
