@@ -83,7 +83,7 @@
 /* ENABLE CLOCK PeRIPHERAL */
 #define RCC_APB2ENR_IOPCEN ((uint32_t)0x00000010)
 #define RCC_APB1ENR_TIM4 ((uint32_t)0x00000004)
-
+#define RCC_APB1ENR_I2C1 ((uint32_t)(1<<21))
 
 #define RCC ((RCC_TypeDef*)(RCC_BASE))
 typedef struct {

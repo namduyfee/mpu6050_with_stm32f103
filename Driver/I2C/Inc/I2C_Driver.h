@@ -32,7 +32,13 @@ typedef struct
   uint16_t  RESERVED8;
 } I2C_TypeDef; 
 
-
+void config_I2C(void); 
+void start_I2C(void); 
+void write_I2C (uint8_t data);  
+void send_address_I2C(uint8_t Address); 
+void stop_I2C (void); 
+void read_I2C (uint8_t Address, uint8_t *buffer, uint8_t size); 
+void write_mutil_I2C(uint8_t *data, uint8_t size); 
 
 
 #endif
