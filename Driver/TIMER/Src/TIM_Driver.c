@@ -27,7 +27,7 @@ void delayUs(uint32_t us)
 void toggle_led(void) 
 {
     GPIOC->ODR ^= (1 << 13);
-    delayUs(100000); 
+    delayUs(1000000); 
 
 }
 

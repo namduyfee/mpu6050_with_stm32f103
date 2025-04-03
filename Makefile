@@ -26,10 +26,14 @@ COMPILER_DIR := D:/GCC_arm_msys2
 CC           := $(COMPILER_DIR)/bin/arm-none-eabi-gcc
 ASM          := $(COMPILER_DIR)/bin/arm-none-eabi-as
 LD           := $(COMPILER_DIR)/bin/arm-none-eabi-ld
+LD_GCC		 := $(COMPILER_DIR)/bin/arm-none-eabi-gcc
 INC_DIRS_OPT := $(foreach dir, $(INC_DIRS), -I$(dir))
 CC_OPT       := -mcpu=cortex-m3 -O0 -g -mfloat-abi=soft -std=gnu11 -mthumb $(INC_DIRS_OPT)
-LD_OPT		 :=	-T $(LINK_FILE_PATH) -Map $(OUT_DIR)/$(PRO_NAME).map
 
+LD_GCC_OPT	 :=	-T $(LINK_FILE_PATH) -Wl,-Map,$(OUT_DIR)/$(PRO_NAME).map \
+				-nostartfiles -lgcc -lc -lm
+
+LD_OPT	 	 :=	-T $(LINK_FILE_PATH) -Map $(OUT_DIR)/$(PRO_NAME).map
 
 JLINK := C:/"Program Files"/SEGGER/JLink_V822/JLink.exe
 FLASH_SCRIPT := $(PRO_DIR)/Jlink/Flash.jlink
@@ -37,12 +41,17 @@ FLASH_SCRIPT := $(PRO_DIR)/Jlink/Flash.jlink
 
 vpath %.c $(SRC_DIRS)
 vpath %.h $(INC_DIRS)
+vpath %.o $(OUT_DIR)
 
-build: $(OBJ_FILES)
+build_LD: $(OBJ_FILES)
 	$(LD) $(LD_OPT) $(OBJ_FILES_PATH) -o $(EXE_DIR)/$(PRO_NAME).elf
 	$(COMPILER_DIR)/arm-none-eabi/bin/objcopy.exe -O ihex "$(EXE_DIR)/$(PRO_NAME).elf" "$(EXE_DIR)/$(PRO_NAME).hex"
 
-%.o: %.c
+build_GCC: $(OBJ_FILES)
+	$(LD_GCC) $(LD_GCC_OPT) $(OBJ_FILES_PATH) -o $(EXE_DIR)/$(PRO_NAME).elf
+	$(COMPILER_DIR)/arm-none-eabi/bin/objcopy.exe -O ihex "$(EXE_DIR)/$(PRO_NAME).elf" "$(EXE_DIR)/$(PRO_NAME).hex"
+	
+%.o: %.c %.h
 	$(CC) -c -o $(OUT_DIR)/$@ $< $(CC_OPT)
 	echo "completed $@"
 %.s: %.c 
@@ -60,6 +69,7 @@ loadJlink: $(EXE_DIR)/$(PRO_NAME).hex
 	$(JLINK) < $(FLASH_SCRIPT)
 
 printvalof-%: ; @echo $($(subst printvalof-,,$@))
+
 
 print-%: ; @echo $(subst print-,,$@)
 

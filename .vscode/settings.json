@@ -33,10 +33,14 @@
         "JLINK",
         "KEYR",
         "LCKR",
+        "lgcc",
         "mcpu",
         "mfloat",
+        "mfpu",
         "msys",
         "mthumb",
+        "nofp",
+        "nostartfiles",
         "OPTKEYR",
         "OTGFSPRE",
         "PCLK",
@@ -54,15 +58,21 @@
         "RSTR",
         "SDIO",
         "SEGGER",
+        "SMPLRT",
+        "softfp",
         "SYSCLK",
         "TRISE",
-        "WRPR"
+        "WRPR",
+        "XOUT",
+        "YOUT",
+        "ZOUT"
     ],
     "C_Cpp.dimInactiveRegions": true,
     "files.associations": {
         "stm32f103c8t6.h": "c",
         "flash_driver.h": "c",
-        "rcc_driver.h": "c"
+        "rcc_driver.h": "c",
+        "mpu_6050_driver.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

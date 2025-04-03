@@ -39,14 +39,14 @@ void stop_I2C (void)
     I2C1->CR1 |= (1<<9);  // Stop I2C
 }
 
-void send_address_I2C(uint8_t Address)
+void send_address_I2C(uint8_t address)
 {   
     /*
      * because other device has other regulations, so to general i will write DR = Address
        and add or add + bit read/write is adjust by argument
      */
 
-    I2C1->DR = Address;                     //  send the address
+    I2C1->DR = address;                     //  send the address
     while (!(I2C1->SR1 & (1<<1)));          // wait for ADDR bit to set
     uint16_t tem = I2C1->SR1 | I2C1->SR2;   // read SR1 and SR2 to clear the ADDR bit
 }
@@ -82,14 +82,14 @@ void write_mutil_I2C(uint8_t *data, uint8_t size)
     while (!(I2C1->SR1 & (1<<2)));  // wait for BTF to set
 } 
 
-void read_I2C (uint8_t Address, uint8_t *buffer, uint8_t size)
+void read_I2C (uint8_t address, uint8_t *buffer, uint8_t size)
 {
     I2C1->CR1 |= (1<<10);                       // Enable the ACK
-    uint8_t tem_size = size; 
-
+    uint8_t temSize = size; 
+    
     if(1 == size) {
 
-		I2C1->DR = Address;                     //  send the address
+		I2C1->DR = address;                     //  send the address
 		while (!(I2C1->SR1 & (1<<1)));          // wait for ADDR bit to set        
         I2C1->CR1 &= ~(1<<10);                  // clear the ACK bit 
         uint16_t temp = I2C1->SR1 | I2C1->SR2;  // read SR1 and SR2 to clear the ADDR bit
@@ -97,14 +97,14 @@ void read_I2C (uint8_t Address, uint8_t *buffer, uint8_t size)
         I2C1->CR1 |= (1<<9);                    // Stop I2C
         while (!(I2C1->SR1 & (1<<6)));          // wait for RxNE to set
 
-        buffer[size-tem_size] = I2C1->DR;       // Read the data from the DATA REGISTER
+        buffer[size-temSize] = I2C1->DR;       // Read the data from the DATA REGISTER
         
     }
     else if(2 == size) {  
 
         I2C1->CR1 |= (1<<11);                   // Enable the POS   
 
-		I2C1->DR = Address;                     //  send the address
+		I2C1->DR = address;                     //  send the address
 		while (!(I2C1->SR1 & (1<<1)));          // wait for ADDR bit to set        
         uint16_t temp = I2C1->SR1 | I2C1->SR2;  // read SR1 and SR2 to clear the ADDR bit 
 
@@ -121,37 +121,37 @@ void read_I2C (uint8_t Address, uint8_t *buffer, uint8_t size)
          */
         while (!(I2C1->SR1 & (1<<6)));          // wait for first data into DR
         I2C1->CR1 |= (1<<9);                    // Stop I2C
-        buffer[size-tem_size] = I2C1->DR;       // read first byte
-        tem_size--;
+        buffer[size-temSize] = I2C1->DR;       // read first byte
+        temSize--;
         while (!(I2C1->SR1 & (1<<6)));          // wait for second data into DR
-        buffer[size-tem_size] = I2C1->DR;       // read second byte 
+        buffer[size-temSize] = I2C1->DR;       // read second byte 
         I2C1->CR1 &= ~(1<<11);                  // clear the POS bit
 
     }
 
     else {
 
-		I2C1->DR = Address;                     //  send the address
+		I2C1->DR = address;                     //  send the address
 		while (!(I2C1->SR1 & (1<<1)));          // wait for ADDR bit to set        
         uint16_t temp = I2C1->SR1 | I2C1->SR2;  // read SR1 and SR2 to clear the ADDR bit
 
-        while(tem_size > 3) {
+        while(temSize > 3) {
 
             while (!(I2C1->SR1 & (1<<6)));      // wait for RxNE to set
-            buffer[size-tem_size] = I2C1->DR;   // copy the data into the buffer
-            tem_size--; 
+            buffer[size-temSize] = I2C1->DR;   // copy the data into the buffer
+            temSize--; 
         }
 
         while (!(I2C1->SR1 & (1<<6)));          // wait for RxNE to set, dataN-2 is received but not read
         while (!(I2C1->SR1 & (1<<2)));          // wait for BTF to set, dataN-1 is received 
         I2C1->CR1 &= ~(1<<10);                  // clear the ACK bit 
-        buffer[size-tem_size] = I2C1->DR;       // read dataN-2
-        tem_size--; 
+        buffer[size-temSize] = I2C1->DR;       // read dataN-2
+        temSize--; 
         I2C1->CR1 |= (1<<9);                    // Stop I2C
-        buffer[size-tem_size] = I2C1->DR;       // read dataN-1
-        tem_size--; 
+        buffer[size-temSize] = I2C1->DR;       // read dataN-1
+        temSize--; 
         while (!(I2C1->SR1 & (1<<6)));          // wait for RxNE to set
-        buffer[size-tem_size] = I2C1->DR;
+        buffer[size-temSize] = I2C1->DR;
 
     }
 }
