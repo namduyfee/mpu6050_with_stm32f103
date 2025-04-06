@@ -1,7 +1,7 @@
 
 #include <stdint.h> 
 #include "startup_STM32F1.h"
-
+#include "main.h"
 
 unsigned int vectors[] __attribute__((section(".isr_vector")))= {
     STACK_START, 
@@ -86,7 +86,9 @@ void Reset_Handler(void) {
 
 void Default_Handler(void) {
 
-    while(1);
+    while(1) {
+        toggle_led();
+    }
 
 }
 

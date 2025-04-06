@@ -41,11 +41,40 @@
 #define SAVE_Y_AXIS_ADDR	((uint32_t)(SAVE_X_AXIS_ADDR + 4)) // page 127
 #define SAVE_Z_AXIS_ADDR	((uint32_t)(SAVE_Y_AXIS_ADDR + 4)) // page 127
 
+
+typedef struct {
+    int16_t xRaw; 
+	int16_t yRaw; 
+	int16_t zRaw; 
+    float xReal; 
+	float yReal; 
+	float zReal; 
+    float xKalman; 
+	float yKalman; 
+	float zKalman; 		
+} DataMPU_Typedef; 
+
+typedef struct {
+	int16_t pitch; 
+	int16_t roll; 
+} Angle_Typedef;
+
+
+extern DataMPU_Typedef Accel; 
+extern DataMPU_Typedef Gyro; 
+extern Angle_Typedef MPU; 
+
+
 void config_MPU(void); 
 void mpu_write (uint8_t address, uint8_t reg, uint8_t data); 
 void mpu_read(uint8_t address, uint8_t reg, uint8_t *buffer, uint8_t size); 
-void mpu_read_accel(void); 
-void mpu_read_gyro(void); 
+
+void mpu_read_accel_all(void); 
+void mpu_read_gyro_all(void); 
+
+void mpu_read_gyro_axis(char axis); 
+void mpu_read_accel_axis(char axis); 
+
 
 
 #endif

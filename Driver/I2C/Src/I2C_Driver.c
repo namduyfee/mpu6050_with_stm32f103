@@ -121,12 +121,12 @@ void read_I2C (uint8_t address, uint8_t *buffer, uint8_t size)
          */
         while (!(I2C1->SR1 & (1<<6)));          // wait for first data into DR
         I2C1->CR1 |= (1<<9);                    // Stop I2C
-        buffer[size-temSize] = I2C1->DR;       // read first byte
+        buffer[size-temSize] = I2C1->DR;        // read first byte
         temSize--;
         while (!(I2C1->SR1 & (1<<6)));          // wait for second data into DR
-        buffer[size-temSize] = I2C1->DR;       // read second byte 
+        buffer[size-temSize] = I2C1->DR;        // read second byte 
         I2C1->CR1 &= ~(1<<11);                  // clear the POS bit
-
+        
     }
 
     else {
