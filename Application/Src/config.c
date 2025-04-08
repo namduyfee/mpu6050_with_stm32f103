@@ -4,7 +4,7 @@
 void config_STM32F1(void) 
 {
     config_RCC(); 
-
+    
     config_GPIOC();
     config_GPIOB(); 
     config_AFIO(); 
@@ -15,7 +15,7 @@ void config_STM32F1(void)
 
     config_MPU();  
 
-    kalman_filter_init_accel(); 
+    kalman_filter_init_accel();
 
 }
 

@@ -19,6 +19,7 @@ void main(void)
 		MPU.pitch = (atan(-Accel.xKalman / sqrt(pow(Accel.yKalman, 2) + pow(Accel.zKalman, 2))) * 180 * 1.0f / PI);
         
         delayUs(1000); 
+
     }
 
 }
