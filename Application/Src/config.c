@@ -1,10 +1,13 @@
 
 #include "config.h"
 
+
 void config_STM32F1(void) 
 {
     config_RCC(); 
-    
+    config_NVIC(); 
+    config_EXTI(); 
+    config_GPIOA(); 
     config_GPIOC();
     config_GPIOB(); 
     config_AFIO(); 
@@ -13,9 +16,9 @@ void config_STM32F1(void)
     
     config_I2C(); 
 
-    config_MPU();  
+    config_MPU(); 
 
-    kalman_filter_init_accel();
+    kalman_filter_init_accel();  
 
 }
 

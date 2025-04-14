@@ -1,6 +1,14 @@
 
 #include "GPIO_Driver.h"
+void config_GPIOA(void) 
+{
+	RCC->APB2ENR |= 1<<2;
+	GPIOA->CRL = 0; 
+	
+	GPIOA->CRL |= 0x08;        // PA0 input pull up/pull down
+	GPIOA->ODR |= 1;           // PA0 input pull up
 
+}
 
 void config_GPIOC(void) 
 {
@@ -20,12 +28,5 @@ void config_GPIOB(void)
 	// PB8, PB9 output alternate open drain 
 	GPIOB->CRH |= 0xFF;
 
-}
-
-void config_AFIO(void) 
-{
-	RCC->APB2ENR |= 1; 
-	// I2C remap 
-	AFIO->MAPR |= 1<<1; 
 }
 

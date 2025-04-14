@@ -7,6 +7,8 @@
 #define ON_LED_SAMPLE_KALMAN	(GPIOC->ODR &= (~(1 << 13)))
 #define OFF_LED_SAMPLE_KALMAN	(GPIOC->ODR |= (1 << 13))
 
+#define EXAMPLE_KALMAN_PAGE_FLASH 0x08007C00
+
 typedef struct {
     float q; // Process noise
     float r; // Measurement noise
@@ -14,6 +16,8 @@ typedef struct {
     float p; // Estimation error covariance
     float k; // Kalman gain
 } KalmanFilter;
+
+extern uint8_t enableSample; 
 
 extern KalmanFilter kf_x_accel;
 extern KalmanFilter kf_y_accel;
@@ -24,6 +28,7 @@ float Kalman_update(KalmanFilter* kf, float measurement);
 float compute_mean(float* data, int n); 
 float compute_variance(float* data, int n, float mean); 
 void kalman_filter_init_accel(); 
+void sample_kalman_filter_init_accel(void); 
 
 #endif
 

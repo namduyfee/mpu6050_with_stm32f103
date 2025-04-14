@@ -51,12 +51,16 @@ SRAM             0x20000000         0x00005000         xrw
 Linker script and memory map
 
 LOAD ./Output/config.o
+LOAD ./Output/handler.o
 LOAD ./Output/main.o
 LOAD ./Output/startup_STM32F1.o
+LOAD ./Output/AFIO_Driver.o
+LOAD ./Output/EXTI_Driver.o
 LOAD ./Output/FLASH_Driver.o
 LOAD ./Output/GPIO_Driver.o
 LOAD ./Output/I2C_Driver.o
 LOAD ./Output/MPU_6050_Driver.o
+LOAD ./Output/NVIC_Driver.o
 LOAD ./Output/RCC_Driver.o
 LOAD ./Output/TIM_Driver.o
 LOAD ./Output/Compass_Digital.o
@@ -69,317 +73,339 @@ LOAD d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc
 LOAD d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a
 END GROUP
 
-.text           0x08000000     0x23c0
+.text           0x08000000     0x2ab8
  *(.isr_vector)
  .isr_vector    0x08000000       0xec ./Output/startup_STM32F1.o
                 0x08000000                vectors
  *(.text)
- .text          0x080000ec       0x28 ./Output/config.o
+ .text          0x080000ec       0x34 ./Output/config.o
                 0x080000ec                config_STM32F1
- *fill*         0x08000114        0x4 
- .text          0x08000118      0x1b0 ./Output/main.o
-                0x08000118                main
- .text          0x080002c8       0x90 ./Output/startup_STM32F1.o
-                0x080002c8                Reset_Handler
-                0x0800034c                EXTI2_IRQHandler
-                0x0800034c                DebugMon_Handler
-                0x0800034c                TIM1_CC_IRQHandler
-                0x0800034c                HardFault_Handler
-                0x0800034c                SysTick_Handler
-                0x0800034c                PendSV_Handler
-                0x0800034c                NMI_Handler
-                0x0800034c                EXTI3_IRQHandler
-                0x0800034c                EXTI0_IRQHandler
-                0x0800034c                I2C2_EV_IRQHandler
-                0x0800034c                UsageFault_Handler
-                0x0800034c                ADC1_2_IRQHandler
-                0x0800034c                SPI1_IRQHandler
-                0x0800034c                TAMPER_IRQHandler
-                0x0800034c                DMA1_Channel4_IRQHandler
-                0x0800034c                USART3_IRQHandler
-                0x0800034c                RTC_IRQHandler
-                0x0800034c                DMA1_Channel7_IRQHandler
-                0x0800034c                RTC_Alarm_IRQHandler
-                0x0800034c                CAN1_RX1_IRQHandler
-                0x0800034c                TIM4_IRQHandler
-                0x0800034c                I2C1_EV_IRQHandler
-                0x0800034c                DMA1_Channel6_IRQHandler
-                0x0800034c                TIM3_IRQHandler
-                0x0800034c                RCC_IRQHandler
-                0x0800034c                TIM1_TRG_COM_IRQHandler
-                0x0800034c                DMA1_Channel1_IRQHandler
-                0x0800034c                Default_Handler
-                0x0800034c                EXTI15_10_IRQHandler
-                0x0800034c                EXTI9_5_IRQHandler
-                0x0800034c                SPI2_IRQHandler
-                0x0800034c                MemManage_Handler
-                0x0800034c                SVC_Handler
-                0x0800034c                DMA1_Channel5_IRQHandler
-                0x0800034c                EXTI4_IRQHandler
-                0x0800034c                USB_LP_CAN1_RX0_IRQHandler
-                0x0800034c                USB_HP_CAN1_TX_IRQHandler
-                0x0800034c                DMA1_Channel3_IRQHandler
-                0x0800034c                TIM1_UP_IRQHandler
-                0x0800034c                WWDG_IRQHandler
-                0x0800034c                TIM2_IRQHandler
-                0x0800034c                PVD_Handler
-                0x0800034c                TIM1_BRK_IRQHandler
-                0x0800034c                EXTI1_IRQHandler
-                0x0800034c                USART2_IRQHandler
-                0x0800034c                I2C2_ER_IRQHandler
-                0x0800034c                DMA1_Channel2_IRQHandler
-                0x0800034c                CAN1_SCE_IRQHandler
-                0x0800034c                FLASH_IRQHandler
-                0x0800034c                BusFault_Handler
-                0x0800034c                USART1_IRQHandler
-                0x0800034c                I2C1_ER_IRQHandler
-                0x0800034c                USBWakeUp_IRQHandler
- .text          0x08000358        0x0 ./Output/FLASH_Driver.o
- .text          0x08000358       0x94 ./Output/GPIO_Driver.o
-                0x08000358                config_GPIOC
-                0x08000388                config_GPIOB
-                0x080003c0                config_AFIO
- .text          0x080003ec      0x434 ./Output/I2C_Driver.o
-                0x080003ec                config_I2C
-                0x08000478                start_I2C
-                0x080004bc                stop_I2C
-                0x080004dc                send_address_I2C
-                0x0800051c                write_I2C
-                0x08000560                write_mutil_I2C
-                0x080005bc                read_I2C
- .text          0x08000820      0x448 ./Output/MPU_6050_Driver.o
-                0x08000820                config_MPU
-                0x08000880                mpu_write
-                0x080008ba                mpu_read
-                0x08000900                mpu_read_accel_all
-                0x080009b4                mpu_read_gyro_all
-                0x08000a68                mpu_read_gyro_axis
-                0x08000b68                mpu_read_accel_axis
- .text          0x08000c68      0x1a0 ./Output/RCC_Driver.o
-                0x08000c68                config_RCC
- .text          0x08000e08       0x9c ./Output/TIM_Driver.o
-                0x08000e08                config_TIM4
-                0x08000e48                delayUs
-                0x08000e80                toggle_led
- .text          0x08000ea4        0x0 ./Output/Compass_Digital.o
- .text          0x08000ea4      0x37c ./Output/Kalman_Filter.o
-                0x08000ea4                Kalman_init
-                0x08000ede                Kalman_update
-                0x08000f86                compute_mean
-                0x08000fda                compute_variance
-                0x0800104a                kalman_filter_init_accel
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
- .text          0x08001220        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
- .text          0x08001220      0x254 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
- .text          0x08001474      0x168 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
- .text          0x080015dc      0x378 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
-                0x080015dc                __aeabi_drsub
-                0x080015e4                __aeabi_dsub
-                0x080015e4                __subdf3
-                0x080015e8                __aeabi_dadd
-                0x080015e8                __adddf3
-                0x08001860                __floatunsidf
-                0x08001860                __aeabi_ui2d
-                0x08001880                __floatsidf
-                0x08001880                __aeabi_i2d
-                0x080018a4                __aeabi_f2d
-                0x080018a4                __extendsfdf2
-                0x080018e8                __floatundidf
-                0x080018e8                __aeabi_ul2d
-                0x080018f8                __floatdidf
-                0x080018f8                __aeabi_l2d
- .text          0x08001954      0x424 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
-                0x08001954                __aeabi_dmul
-                0x08001954                __muldf3
-                0x08001ba8                __divdf3
-                0x08001ba8                __aeabi_ddiv
- .text          0x08001d78      0x110 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
-                0x08001d78                __gtdf2
-                0x08001d78                __gedf2
-                0x08001d80                __ltdf2
-                0x08001d80                __ledf2
-                0x08001d88                __nedf2
-                0x08001d88                __eqdf2
-                0x08001d88                __cmpdf2
-                0x08001e04                __aeabi_cdrcmple
-                0x08001e14                __aeabi_cdcmpeq
-                0x08001e14                __aeabi_cdcmple
-                0x08001e24                __aeabi_dcmpeq
-                0x08001e38                __aeabi_dcmplt
-                0x08001e4c                __aeabi_dcmple
-                0x08001e60                __aeabi_dcmpge
-                0x08001e74                __aeabi_dcmpgt
- .text          0x08001e88       0x2c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
-                0x08001e88                __unorddf2
-                0x08001e88                __aeabi_dcmpun
- .text          0x08001eb4       0x50 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
-                0x08001eb4                __aeabi_d2iz
-                0x08001eb4                __fixdfsi
- .text          0x08001f04      0x21c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
-                0x08001f04                __aeabi_frsub
-                0x08001f0c                __subsf3
-                0x08001f0c                __aeabi_fsub
-                0x08001f10                __aeabi_fadd
-                0x08001f10                __addsf3
-                0x08002070                __aeabi_ui2f
-                0x08002070                __floatunsisf
-                0x08002078                __aeabi_i2f
-                0x08002078                __floatsisf
-                0x08002094                __aeabi_ul2f
-                0x08002094                __floatundisf
-                0x080020a4                __aeabi_l2f
-                0x080020a4                __floatdisf
- .text          0x08002120      0x2a0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
-                0x08002120                __mulsf3
-                0x08002120                __aeabi_fmul
-                0x08002288                __aeabi_fdiv
-                0x08002288                __divsf3
- .text          0x080023c0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
- .text          0x080023c0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
+ .text          0x08000120       0x44 ./Output/handler.o
+                0x08000120                HardFault_Handler
+                0x0800012a                EXTI0_IRQHandler
+ *fill*         0x08000164        0x4 
+ .text          0x08000168      0x1c4 ./Output/main.o
+                0x08000168                main
+ .text          0x0800032c       0x90 ./Output/startup_STM32F1.o
+                0x0800032c                Reset_Handler
+                0x080003b0                EXTI2_IRQHandler
+                0x080003b0                DebugMon_Handler
+                0x080003b0                TIM1_CC_IRQHandler
+                0x080003b0                SysTick_Handler
+                0x080003b0                PendSV_Handler
+                0x080003b0                NMI_Handler
+                0x080003b0                EXTI3_IRQHandler
+                0x080003b0                I2C2_EV_IRQHandler
+                0x080003b0                UsageFault_Handler
+                0x080003b0                ADC1_2_IRQHandler
+                0x080003b0                SPI1_IRQHandler
+                0x080003b0                TAMPER_IRQHandler
+                0x080003b0                DMA1_Channel4_IRQHandler
+                0x080003b0                USART3_IRQHandler
+                0x080003b0                RTC_IRQHandler
+                0x080003b0                DMA1_Channel7_IRQHandler
+                0x080003b0                RTC_Alarm_IRQHandler
+                0x080003b0                CAN1_RX1_IRQHandler
+                0x080003b0                TIM4_IRQHandler
+                0x080003b0                I2C1_EV_IRQHandler
+                0x080003b0                DMA1_Channel6_IRQHandler
+                0x080003b0                TIM3_IRQHandler
+                0x080003b0                RCC_IRQHandler
+                0x080003b0                TIM1_TRG_COM_IRQHandler
+                0x080003b0                DMA1_Channel1_IRQHandler
+                0x080003b0                Default_Handler
+                0x080003b0                EXTI15_10_IRQHandler
+                0x080003b0                EXTI9_5_IRQHandler
+                0x080003b0                SPI2_IRQHandler
+                0x080003b0                MemManage_Handler
+                0x080003b0                SVC_Handler
+                0x080003b0                DMA1_Channel5_IRQHandler
+                0x080003b0                EXTI4_IRQHandler
+                0x080003b0                USB_LP_CAN1_RX0_IRQHandler
+                0x080003b0                USB_HP_CAN1_TX_IRQHandler
+                0x080003b0                DMA1_Channel3_IRQHandler
+                0x080003b0                TIM1_UP_IRQHandler
+                0x080003b0                WWDG_IRQHandler
+                0x080003b0                TIM2_IRQHandler
+                0x080003b0                PVD_Handler
+                0x080003b0                TIM1_BRK_IRQHandler
+                0x080003b0                EXTI1_IRQHandler
+                0x080003b0                USART2_IRQHandler
+                0x080003b0                I2C2_ER_IRQHandler
+                0x080003b0                DMA1_Channel2_IRQHandler
+                0x080003b0                CAN1_SCE_IRQHandler
+                0x080003b0                FLASH_IRQHandler
+                0x080003b0                BusFault_Handler
+                0x080003b0                USART1_IRQHandler
+                0x080003b0                I2C1_ER_IRQHandler
+                0x080003b0                USBWakeUp_IRQHandler
+ .text          0x080003bc       0x38 ./Output/AFIO_Driver.o
+                0x080003bc                config_AFIO
+ .text          0x080003f4       0x28 ./Output/EXTI_Driver.o
+                0x080003f4                config_EXTI
+ .text          0x0800041c      0x3a4 ./Output/FLASH_Driver.o
+                0x0800041c                config_FLASH
+                0x08000438                Flash_Lock
+                0x08000454                Flash_Unlock
+                0x08000478                Flash_Erase
+                0x080004e4                Flash_Write_16bits
+                0x08000570                Flash_Read_16bits
+                0x080005c2                Flash_Write_8bits
+                0x0800064c                Flash_Read_8bits
+                0x0800069c                Flash_Write_32bits
+                0x08000754                Flash_Read_32bits
+ .text          0x080007c0       0xa8 ./Output/GPIO_Driver.o
+                0x080007c0                config_GPIOA
+                0x08000800                config_GPIOC
+                0x08000830                config_GPIOB
+ .text          0x08000868      0x434 ./Output/I2C_Driver.o
+                0x08000868                config_I2C
+                0x080008f4                start_I2C
+                0x08000938                stop_I2C
+                0x08000958                send_address_I2C
+                0x08000998                write_I2C
+                0x080009dc                write_mutil_I2C
+                0x08000a38                read_I2C
+ .text          0x08000c9c      0x448 ./Output/MPU_6050_Driver.o
+                0x08000c9c                config_MPU
+                0x08000cfc                mpu_write
+                0x08000d36                mpu_read
+                0x08000d7c                mpu_read_accel_all
+                0x08000e30                mpu_read_gyro_all
+                0x08000ee4                mpu_read_gyro_axis
+                0x08000fe4                mpu_read_accel_axis
+ .text          0x080010e4       0xc8 ./Output/NVIC_Driver.o
+                0x0800118c                config_NVIC
+ .text          0x080011ac      0x1a0 ./Output/RCC_Driver.o
+                0x080011ac                config_RCC
+ .text          0x0800134c       0x9c ./Output/TIM_Driver.o
+                0x0800134c                config_TIM4
+                0x0800138c                delayUs
+                0x080013c4                toggle_led
+ .text          0x080013e8        0x0 ./Output/Compass_Digital.o
+ .text          0x080013e8      0x530 ./Output/Kalman_Filter.o
+                0x080013e8                Kalman_init
+                0x08001422                Kalman_update
+                0x080014ca                compute_mean
+                0x0800151e                compute_variance
+                0x0800158e                sample_kalman_filter_init_accel
+                0x0800184c                kalman_filter_init_accel
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
+ .text          0x08001918        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
+ .text          0x08001918      0x254 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
+ .text          0x08001b6c      0x168 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
+ .text          0x08001cd4      0x378 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
+                0x08001cd4                __aeabi_drsub
+                0x08001cdc                __aeabi_dsub
+                0x08001cdc                __subdf3
+                0x08001ce0                __aeabi_dadd
+                0x08001ce0                __adddf3
+                0x08001f58                __floatunsidf
+                0x08001f58                __aeabi_ui2d
+                0x08001f78                __floatsidf
+                0x08001f78                __aeabi_i2d
+                0x08001f9c                __aeabi_f2d
+                0x08001f9c                __extendsfdf2
+                0x08001fe0                __floatundidf
+                0x08001fe0                __aeabi_ul2d
+                0x08001ff0                __floatdidf
+                0x08001ff0                __aeabi_l2d
+ .text          0x0800204c      0x424 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+                0x0800204c                __aeabi_dmul
+                0x0800204c                __muldf3
+                0x080022a0                __divdf3
+                0x080022a0                __aeabi_ddiv
+ .text          0x08002470      0x110 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
+                0x08002470                __gtdf2
+                0x08002470                __gedf2
+                0x08002478                __ltdf2
+                0x08002478                __ledf2
+                0x08002480                __nedf2
+                0x08002480                __eqdf2
+                0x08002480                __cmpdf2
+                0x080024fc                __aeabi_cdrcmple
+                0x0800250c                __aeabi_cdcmpeq
+                0x0800250c                __aeabi_cdcmple
+                0x0800251c                __aeabi_dcmpeq
+                0x08002530                __aeabi_dcmplt
+                0x08002544                __aeabi_dcmple
+                0x08002558                __aeabi_dcmpge
+                0x0800256c                __aeabi_dcmpgt
+ .text          0x08002580       0x2c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
+                0x08002580                __unorddf2
+                0x08002580                __aeabi_dcmpun
+ .text          0x080025ac       0x50 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+                0x080025ac                __aeabi_d2iz
+                0x080025ac                __fixdfsi
+ .text          0x080025fc      0x21c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
+                0x080025fc                __aeabi_frsub
+                0x08002604                __subsf3
+                0x08002604                __aeabi_fsub
+                0x08002608                __aeabi_fadd
+                0x08002608                __addsf3
+                0x08002768                __aeabi_ui2f
+                0x08002768                __floatunsisf
+                0x08002770                __aeabi_i2f
+                0x08002770                __floatsisf
+                0x0800278c                __aeabi_ul2f
+                0x0800278c                __floatundisf
+                0x0800279c                __aeabi_l2f
+                0x0800279c                __floatdisf
+ .text          0x08002818      0x2a0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
+                0x08002818                __mulsf3
+                0x08002818                __aeabi_fmul
+                0x08002980                __aeabi_fdiv
+                0x08002980                __divsf3
+ .text          0x08002ab8        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
+ .text          0x08002ab8        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
  *(.rodata)
-                0x080023c0                . = ALIGN (0x4)
-                0x080023c0                _etext = .
-                0x08003744                _la_data = LOADADDR (.data)
+                0x08002ab8                . = ALIGN (0x4)
+                0x08002ab8                _etext = .
+                0x08003e3c                _la_data = LOADADDR (.data)
 
-.glue_7         0x080023c0        0x0
- .glue_7        0x080023c0        0x0 linker stubs
+.glue_7         0x08002ab8        0x0
+ .glue_7        0x08002ab8        0x0 linker stubs
 
-.glue_7t        0x080023c0        0x0
- .glue_7t       0x080023c0        0x0 linker stubs
+.glue_7t        0x08002ab8        0x0
+ .glue_7t       0x08002ab8        0x0 linker stubs
 
-.vfp11_veneer   0x080023c0        0x0
- .vfp11_veneer  0x080023c0        0x0 linker stubs
+.vfp11_veneer   0x08002ab8        0x0
+ .vfp11_veneer  0x08002ab8        0x0 linker stubs
 
-.v4_bx          0x080023c0        0x0
- .v4_bx         0x080023c0        0x0 linker stubs
+.v4_bx          0x08002ab8        0x0
+ .v4_bx         0x08002ab8        0x0 linker stubs
 
-.iplt           0x080023c0        0x0
- .iplt          0x080023c0        0x0 ./Output/config.o
+.iplt           0x08002ab8        0x0
+ .iplt          0x08002ab8        0x0 ./Output/config.o
 
-.text.atan      0x080023c0      0x31c
- .text.atan     0x080023c0      0x31c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
-                0x080023c0                atan
+.text.atan      0x08002ab8      0x31c
+ .text.atan     0x08002ab8      0x31c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+                0x08002ab8                atan
 
-.text.fabs      0x080026dc        0x8
- .text.fabs     0x080026dc        0x8 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
-                0x080026dc                fabs
+.text.fabs      0x08002dd4        0x8
+ .text.fabs     0x08002dd4        0x8 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
+                0x08002dd4                fabs
 
-.text.pow       0x080026e4       0xdc
- .text.pow      0x080026e4       0xdc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
-                0x080026e4                pow
+.text.pow       0x08002ddc       0xdc
+ .text.pow      0x08002ddc       0xdc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
+                0x08002ddc                pow
 
-.text.sqrt      0x080027c0       0x50
- .text.sqrt     0x080027c0       0x50 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
-                0x080027c0                sqrt
+.text.sqrt      0x08002eb8       0x50
+ .text.sqrt     0x08002eb8       0x50 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
+                0x08002eb8                sqrt
 
 .text.__ieee754_pow
-                0x08002810      0xb08
+                0x08002f08      0xb08
  .text.__ieee754_pow
-                0x08002810      0xb08 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
-                0x08002810                __ieee754_pow
+                0x08002f08      0xb08 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
+                0x08002f08                __ieee754_pow
 
 .text.__ieee754_sqrt
-                0x08003318      0x18c
+                0x08003a10      0x18c
  .text.__ieee754_sqrt
-                0x08003318      0x18c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
-                0x08003318                __ieee754_sqrt
+                0x08003a10      0x18c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
+                0x08003a10                __ieee754_sqrt
 
 .text.with_errno
-                0x080034a4       0x18
+                0x08003b9c       0x18
  .text.with_errno
-                0x080034a4       0x18 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003b9c       0x18 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
 
-.text.xflow     0x080034bc       0x30
- .text.xflow    0x080034bc       0x30 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+.text.xflow     0x08003bb4       0x30
+ .text.xflow    0x08003bb4       0x30 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
 
 .text.__math_uflow
-                0x080034ec        0xc
+                0x08003be4        0xc
  .text.__math_uflow
-                0x080034ec        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x080034ec                __math_uflow
+                0x08003be4        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003be4                __math_uflow
 
 .text.__math_may_uflow
-                0x080034f8        0xc
+                0x08003bf0        0xc
  .text.__math_may_uflow
-                0x080034f8        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x080034f8                __math_may_uflow
+                0x08003bf0        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003bf0                __math_may_uflow
 
 .text.__math_oflow
-                0x08003504        0xc
+                0x08003bfc        0xc
  .text.__math_oflow
-                0x08003504        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x08003504                __math_oflow
+                0x08003bfc        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003bfc                __math_oflow
 
 .text.__math_divzero
-                0x08003510       0x34
+                0x08003c08       0x34
  .text.__math_divzero
-                0x08003510       0x34 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x08003510                __math_divzero
+                0x08003c08       0x34 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003c08                __math_divzero
 
 .text.__math_invalid
-                0x08003544       0x3c
+                0x08003c3c       0x3c
  .text.__math_invalid
-                0x08003544       0x3c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x08003544                __math_invalid
+                0x08003c3c       0x3c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003c3c                __math_invalid
 
 .text.__math_check_uflow
-                0x08003580       0x24
+                0x08003c78       0x24
  .text.__math_check_uflow
-                0x08003580       0x24 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x08003580                __math_check_uflow
+                0x08003c78       0x24 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003c78                __math_check_uflow
 
 .text.__math_check_oflow
-                0x080035a4       0x44
+                0x08003c9c       0x44
  .text.__math_check_oflow
-                0x080035a4       0x44 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
-                0x080035a4                __math_check_oflow
+                0x08003c9c       0x44 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x08003c9c                __math_check_oflow
 
-.text.finite    0x080035e8        0xc
- .text.finite   0x080035e8        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
-                0x080035e8                finite
+.text.finite    0x08003ce0        0xc
+ .text.finite   0x08003ce0        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
+                0x08003ce0                finite
 
-.text.scalbn    0x080035f8       0xfc
- .text.scalbn   0x080035f8       0xfc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
-                0x080035f8                scalbn
+.text.scalbn    0x08003cf0       0xfc
+ .text.scalbn   0x08003cf0       0xfc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
+                0x08003cf0                scalbn
 
-.text.__errno   0x080036f4        0xc
- .text.__errno  0x080036f4        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
-                0x080036f4                __errno
+.text.__errno   0x08003dec        0xc
+ .text.__errno  0x08003dec        0xc d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
+                0x08003dec                __errno
 
-.rodata.atanhi  0x08003700       0x20
+.rodata.atanhi  0x08003df8       0x20
  .rodata.atanhi
-                0x08003700       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+                0x08003df8       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
 
-.rodata.atanlo  0x08003720       0x20
+.rodata.atanlo  0x08003e18       0x20
  .rodata.atanlo
-                0x08003720       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+                0x08003e18       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
 
 .rodata._global_impure_ptr
-                0x08003740        0x4
+                0x08003e38        0x4
  .rodata._global_impure_ptr
-                0x08003740        0x4 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
-                0x08003740                _global_impure_ptr
+                0x08003e38        0x4 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
+                0x08003e38                _global_impure_ptr
 
-.rel.dyn        0x08003744        0x0
- .rel.iplt      0x08003744        0x0 ./Output/config.o
+.rel.dyn        0x08003e3c        0x0
+ .rel.iplt      0x08003e3c        0x0 ./Output/config.o
 
-.data           0x20000000        0x0 load address 0x08003744
+.data           0x20000000        0x0 load address 0x08003e3c
                 0x20000000                _sdata = .
  *(.data)
  .data          0x20000000        0x0 ./Output/config.o
+ .data          0x20000000        0x0 ./Output/handler.o
  .data          0x20000000        0x0 ./Output/main.o
  .data          0x20000000        0x0 ./Output/startup_STM32F1.o
+ .data          0x20000000        0x0 ./Output/AFIO_Driver.o
+ .data          0x20000000        0x0 ./Output/EXTI_Driver.o
  .data          0x20000000        0x0 ./Output/FLASH_Driver.o
  .data          0x20000000        0x0 ./Output/GPIO_Driver.o
  .data          0x20000000        0x0 ./Output/I2C_Driver.o
  .data          0x20000000        0x0 ./Output/MPU_6050_Driver.o
+ .data          0x20000000        0x0 ./Output/NVIC_Driver.o
  .data          0x20000000        0x0 ./Output/RCC_Driver.o
  .data          0x20000000        0x0 ./Output/TIM_Driver.o
  .data          0x20000000        0x0 ./Output/Compass_Digital.o
@@ -407,26 +433,29 @@ END GROUP
                 0x20000000                . = ALIGN (0x4)
                 0x20000000                _edata = .
 
-.igot.plt       0x20000000        0x0 load address 0x08003744
+.igot.plt       0x20000000        0x0 load address 0x08003e3c
  .igot.plt      0x20000000        0x0 ./Output/config.o
 
 .data._impure_ptr
-                0x20000000        0x4 load address 0x08003744
+                0x20000000        0x4 load address 0x08003e3c
  .data._impure_ptr
                 0x20000000        0x4 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
                 0x20000000                _impure_ptr
 
 .data.impure_data
-                0x20000008      0x428 load address 0x08003748
+                0x20000008      0x428 load address 0x08003e40
  .data.impure_data
                 0x20000008      0x428 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
 
-.bss            0x20000430       0x80 load address 0x08003b70
+.bss            0x20000430       0x9c load address 0x08004268
                 0x20000430                _sbss = .
  *(.bss)
  .bss           0x20000430        0x0 ./Output/config.o
+ .bss           0x20000430        0x0 ./Output/handler.o
  .bss           0x20000430        0x0 ./Output/main.o
  .bss           0x20000430        0x0 ./Output/startup_STM32F1.o
+ .bss           0x20000430        0x0 ./Output/AFIO_Driver.o
+ .bss           0x20000430        0x0 ./Output/EXTI_Driver.o
  .bss           0x20000430        0x0 ./Output/FLASH_Driver.o
  .bss           0x20000430        0x0 ./Output/GPIO_Driver.o
  .bss           0x20000430        0x0 ./Output/I2C_Driver.o
@@ -434,131 +463,166 @@ END GROUP
                 0x20000430                Accel
                 0x20000450                Gyro
                 0x20000470                MPU
+ .bss           0x20000474        0x0 ./Output/NVIC_Driver.o
  .bss           0x20000474        0x0 ./Output/RCC_Driver.o
  .bss           0x20000474        0x0 ./Output/TIM_Driver.o
  .bss           0x20000474        0x0 ./Output/Compass_Digital.o
- .bss           0x20000474       0x3c ./Output/Kalman_Filter.o
-                0x20000474                kf_x_accel
-                0x20000488                kf_y_accel
-                0x2000049c                kf_z_accel
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
- .bss           0x200004b0        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
+ .bss           0x20000474       0x58 ./Output/Kalman_Filter.o
+                0x20000474                enableSample
+                0x20000478                tem_kalman
+                0x20000490                kf_x_accel
+                0x200004a4                kf_y_accel
+                0x200004b8                kf_z_accel
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
+ .bss           0x200004cc        0x0 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
  *(.COMMON)
-                0x200004b0                . = ALIGN (0x4)
-                0x200004b0                _ebss = .
+                0x200004cc                . = ALIGN (0x4)
+                0x200004cc                _ebss = .
 OUTPUT(./Bin/mpu_6050.elf elf32-littlearm)
 LOAD linker stubs
 
-.debug_info     0x00000000     0x16ba
+.debug_info     0x00000000     0x206e
  .debug_info    0x00000000       0x9a ./Output/config.o
- .debug_info    0x0000009a      0x1de ./Output/main.o
- .debug_info    0x00000278      0x170 ./Output/startup_STM32F1.o
- .debug_info    0x000003e8       0x80 ./Output/FLASH_Driver.o
- .debug_info    0x00000468      0x237 ./Output/GPIO_Driver.o
- .debug_info    0x0000069f      0x2fe ./Output/I2C_Driver.o
- .debug_info    0x0000099d      0x335 ./Output/MPU_6050_Driver.o
- .debug_info    0x00000cd2      0x232 ./Output/RCC_Driver.o
- .debug_info    0x00000f04      0x369 ./Output/TIM_Driver.o
- .debug_info    0x0000126d      0x44d ./Output/Kalman_Filter.o
+ .debug_info    0x0000009a      0x120 ./Output/handler.o
+ .debug_info    0x000001ba      0x1ea ./Output/main.o
+ .debug_info    0x000003a4      0x170 ./Output/startup_STM32F1.o
+ .debug_info    0x00000514      0x1a2 ./Output/AFIO_Driver.o
+ .debug_info    0x000006b6      0x102 ./Output/EXTI_Driver.o
+ .debug_info    0x000007b8      0x3db ./Output/FLASH_Driver.o
+ .debug_info    0x00000b93      0x1cb ./Output/GPIO_Driver.o
+ .debug_info    0x00000d5e      0x2fe ./Output/I2C_Driver.o
+ .debug_info    0x0000105c      0x335 ./Output/MPU_6050_Driver.o
+ .debug_info    0x00001391      0x27a ./Output/NVIC_Driver.o
+ .debug_info    0x0000160b      0x232 ./Output/RCC_Driver.o
+ .debug_info    0x0000183d      0x369 ./Output/TIM_Driver.o
+ .debug_info    0x00001ba6      0x4c8 ./Output/Kalman_Filter.o
 
-.debug_abbrev   0x00000000      0x7c4
+.debug_abbrev   0x00000000      0xb68
  .debug_abbrev  0x00000000       0x44 ./Output/config.o
- .debug_abbrev  0x00000044       0xaa ./Output/main.o
- .debug_abbrev  0x000000ee       0xd5 ./Output/startup_STM32F1.o
- .debug_abbrev  0x000001c3       0x26 ./Output/FLASH_Driver.o
- .debug_abbrev  0x000001e9       0x9d ./Output/GPIO_Driver.o
- .debug_abbrev  0x00000286       0xf7 ./Output/I2C_Driver.o
- .debug_abbrev  0x0000037d      0x112 ./Output/MPU_6050_Driver.o
- .debug_abbrev  0x0000048f      0x10b ./Output/RCC_Driver.o
- .debug_abbrev  0x0000059a       0xd2 ./Output/TIM_Driver.o
- .debug_abbrev  0x0000066c      0x158 ./Output/Kalman_Filter.o
+ .debug_abbrev  0x00000044       0x9e ./Output/handler.o
+ .debug_abbrev  0x000000e2       0xaa ./Output/main.o
+ .debug_abbrev  0x0000018c       0xd5 ./Output/startup_STM32F1.o
+ .debug_abbrev  0x00000261       0x9d ./Output/AFIO_Driver.o
+ .debug_abbrev  0x000002fe       0x8b ./Output/EXTI_Driver.o
+ .debug_abbrev  0x00000389      0x128 ./Output/FLASH_Driver.o
+ .debug_abbrev  0x000004b1       0x8b ./Output/GPIO_Driver.o
+ .debug_abbrev  0x0000053c       0xf7 ./Output/I2C_Driver.o
+ .debug_abbrev  0x00000633      0x112 ./Output/MPU_6050_Driver.o
+ .debug_abbrev  0x00000745       0xbf ./Output/NVIC_Driver.o
+ .debug_abbrev  0x00000804      0x10b ./Output/RCC_Driver.o
+ .debug_abbrev  0x0000090f       0xd2 ./Output/TIM_Driver.o
+ .debug_abbrev  0x000009e1      0x187 ./Output/Kalman_Filter.o
 
-.debug_aranges  0x00000000      0x138
+.debug_aranges  0x00000000      0x1c0
  .debug_aranges
                 0x00000000       0x20 ./Output/config.o
  .debug_aranges
-                0x00000020       0x20 ./Output/main.o
+                0x00000020       0x20 ./Output/handler.o
  .debug_aranges
-                0x00000040       0x20 ./Output/startup_STM32F1.o
+                0x00000040       0x20 ./Output/main.o
  .debug_aranges
-                0x00000060       0x18 ./Output/FLASH_Driver.o
+                0x00000060       0x20 ./Output/startup_STM32F1.o
  .debug_aranges
-                0x00000078       0x20 ./Output/GPIO_Driver.o
+                0x00000080       0x20 ./Output/AFIO_Driver.o
  .debug_aranges
-                0x00000098       0x20 ./Output/I2C_Driver.o
+                0x000000a0       0x20 ./Output/EXTI_Driver.o
  .debug_aranges
-                0x000000b8       0x20 ./Output/MPU_6050_Driver.o
+                0x000000c0       0x20 ./Output/FLASH_Driver.o
  .debug_aranges
-                0x000000d8       0x20 ./Output/RCC_Driver.o
+                0x000000e0       0x20 ./Output/GPIO_Driver.o
  .debug_aranges
-                0x000000f8       0x20 ./Output/TIM_Driver.o
+                0x00000100       0x20 ./Output/I2C_Driver.o
  .debug_aranges
-                0x00000118       0x20 ./Output/Kalman_Filter.o
+                0x00000120       0x20 ./Output/MPU_6050_Driver.o
+ .debug_aranges
+                0x00000140       0x20 ./Output/NVIC_Driver.o
+ .debug_aranges
+                0x00000160       0x20 ./Output/RCC_Driver.o
+ .debug_aranges
+                0x00000180       0x20 ./Output/TIM_Driver.o
+ .debug_aranges
+                0x000001a0       0x20 ./Output/Kalman_Filter.o
 
-.debug_line     0x00000000      0xdf4
- .debug_line    0x00000000       0x57 ./Output/config.o
- .debug_line    0x00000057      0x180 ./Output/main.o
- .debug_line    0x000001d7       0xf4 ./Output/startup_STM32F1.o
- .debug_line    0x000002cb       0x1d ./Output/FLASH_Driver.o
- .debug_line    0x000002e8       0xb5 ./Output/GPIO_Driver.o
- .debug_line    0x0000039d      0x315 ./Output/I2C_Driver.o
- .debug_line    0x000006b2      0x28a ./Output/MPU_6050_Driver.o
- .debug_line    0x0000093c      0x184 ./Output/RCC_Driver.o
- .debug_line    0x00000ac0       0xd4 ./Output/TIM_Driver.o
- .debug_line    0x00000b94        0x0 ./Output/Compass_Digital.o
- .debug_line    0x00000b94      0x260 ./Output/Kalman_Filter.o
+.debug_line     0x00000000     0x1451
+ .debug_line    0x00000000       0x5a ./Output/config.o
+ .debug_line    0x0000005a       0xce ./Output/handler.o
+ .debug_line    0x00000128      0x116 ./Output/main.o
+ .debug_line    0x0000023e       0xf4 ./Output/startup_STM32F1.o
+ .debug_line    0x00000332       0x9f ./Output/AFIO_Driver.o
+ .debug_line    0x000003d1       0x7b ./Output/EXTI_Driver.o
+ .debug_line    0x0000044c      0x3bb ./Output/FLASH_Driver.o
+ .debug_line    0x00000807       0xba ./Output/GPIO_Driver.o
+ .debug_line    0x000008c1      0x315 ./Output/I2C_Driver.o
+ .debug_line    0x00000bd6      0x28a ./Output/MPU_6050_Driver.o
+ .debug_line    0x00000e60       0xcb ./Output/NVIC_Driver.o
+ .debug_line    0x00000f2b      0x184 ./Output/RCC_Driver.o
+ .debug_line    0x000010af       0xd4 ./Output/TIM_Driver.o
+ .debug_line    0x00001183        0x0 ./Output/Compass_Digital.o
+ .debug_line    0x00001183      0x2ce ./Output/Kalman_Filter.o
 
-.debug_str      0x00000000      0x778
+.debug_str      0x00000000      0xc7f
  .debug_str     0x00000000      0x10b ./Output/config.o
                                 0x14b (size before relaxing)
- .debug_str     0x0000010b       0xb4 ./Output/main.o
-                                0x1d5 (size before relaxing)
- .debug_str     0x000001bf       0x7c ./Output/startup_STM32F1.o
+ .debug_str     0x0000010b       0x69 ./Output/handler.o
+                                0x18a (size before relaxing)
+ .debug_str     0x00000174       0xb4 ./Output/main.o
+                                0x1e2 (size before relaxing)
+ .debug_str     0x00000228       0x7c ./Output/startup_STM32F1.o
                                 0x19d (size before relaxing)
- .debug_str     0x0000023b       0x22 ./Output/FLASH_Driver.o
-                                0x143 (size before relaxing)
- .debug_str     0x0000025d       0xca ./Output/GPIO_Driver.o
-                                0x1eb (size before relaxing)
- .debug_str     0x00000327       0xf8 ./Output/I2C_Driver.o
+ .debug_str     0x000002a4       0x99 ./Output/AFIO_Driver.o
+                                0x1ba (size before relaxing)
+ .debug_str     0x0000033d       0x2c ./Output/EXTI_Driver.o
+                                0x16a (size before relaxing)
+ .debug_str     0x00000369      0x110 ./Output/FLASH_Driver.o
+                                0x236 (size before relaxing)
+ .debug_str     0x00000479       0x5e ./Output/GPIO_Driver.o
+                                0x1be (size before relaxing)
+ .debug_str     0x000004d7       0xf8 ./Output/I2C_Driver.o
                                 0x22d (size before relaxing)
- .debug_str     0x0000041f       0xbb ./Output/MPU_6050_Driver.o
+ .debug_str     0x000005cf       0xbb ./Output/MPU_6050_Driver.o
                                 0x262 (size before relaxing)
- .debug_str     0x000004da       0xa7 ./Output/RCC_Driver.o
+ .debug_str     0x0000068a      0x363 ./Output/NVIC_Driver.o
+                                0x489 (size before relaxing)
+ .debug_str     0x000009ed       0x83 ./Output/RCC_Driver.o
                                 0x20c (size before relaxing)
- .debug_str     0x00000581       0xfc ./Output/TIM_Driver.o
+ .debug_str     0x00000a70       0xfc ./Output/TIM_Driver.o
                                 0x28e (size before relaxing)
- .debug_str     0x0000067d       0x39 ./Output/Compass_Digital.o
+ .debug_str     0x00000b6c       0x39 ./Output/Compass_Digital.o
                                  0xb8 (size before relaxing)
- .debug_str     0x000006b6       0xc2 ./Output/Kalman_Filter.o
-                                0x281 (size before relaxing)
+ .debug_str     0x00000ba5       0xda ./Output/Kalman_Filter.o
+                                0x2bf (size before relaxing)
 
 .comment        0x00000000       0x49
  .comment       0x00000000       0x49 ./Output/config.o
                                  0x4a (size before relaxing)
+ .comment       0x00000049       0x4a ./Output/handler.o
  .comment       0x00000049       0x4a ./Output/main.o
  .comment       0x00000049       0x4a ./Output/startup_STM32F1.o
+ .comment       0x00000049       0x4a ./Output/AFIO_Driver.o
+ .comment       0x00000049       0x4a ./Output/EXTI_Driver.o
  .comment       0x00000049       0x4a ./Output/FLASH_Driver.o
  .comment       0x00000049       0x4a ./Output/GPIO_Driver.o
  .comment       0x00000049       0x4a ./Output/I2C_Driver.o
  .comment       0x00000049       0x4a ./Output/MPU_6050_Driver.o
+ .comment       0x00000049       0x4a ./Output/NVIC_Driver.o
  .comment       0x00000049       0x4a ./Output/RCC_Driver.o
  .comment       0x00000049       0x4a ./Output/TIM_Driver.o
  .comment       0x00000049       0x4a ./Output/Compass_Digital.o
@@ -569,92 +633,105 @@ LOAD linker stubs
  .ARM.attributes
                 0x00000000       0x2d ./Output/config.o
  .ARM.attributes
-                0x0000002d       0x2d ./Output/main.o
+                0x0000002d       0x2d ./Output/handler.o
  .ARM.attributes
-                0x0000005a       0x2d ./Output/startup_STM32F1.o
+                0x0000005a       0x2d ./Output/main.o
  .ARM.attributes
-                0x00000087       0x2d ./Output/FLASH_Driver.o
+                0x00000087       0x2d ./Output/startup_STM32F1.o
  .ARM.attributes
-                0x000000b4       0x2d ./Output/GPIO_Driver.o
+                0x000000b4       0x2d ./Output/AFIO_Driver.o
  .ARM.attributes
-                0x000000e1       0x2d ./Output/I2C_Driver.o
+                0x000000e1       0x2d ./Output/EXTI_Driver.o
  .ARM.attributes
-                0x0000010e       0x2d ./Output/MPU_6050_Driver.o
+                0x0000010e       0x2d ./Output/FLASH_Driver.o
  .ARM.attributes
-                0x0000013b       0x2d ./Output/RCC_Driver.o
+                0x0000013b       0x2d ./Output/GPIO_Driver.o
  .ARM.attributes
-                0x00000168       0x2d ./Output/TIM_Driver.o
+                0x00000168       0x2d ./Output/I2C_Driver.o
  .ARM.attributes
-                0x00000195       0x2d ./Output/Compass_Digital.o
+                0x00000195       0x2d ./Output/MPU_6050_Driver.o
  .ARM.attributes
-                0x000001c2       0x2d ./Output/Kalman_Filter.o
+                0x000001c2       0x2d ./Output/NVIC_Driver.o
  .ARM.attributes
-                0x000001ef       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+                0x000001ef       0x2d ./Output/RCC_Driver.o
  .ARM.attributes
-                0x0000021c       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
+                0x0000021c       0x2d ./Output/TIM_Driver.o
  .ARM.attributes
-                0x00000249       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
+                0x00000249       0x2d ./Output/Compass_Digital.o
  .ARM.attributes
-                0x00000276       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
+                0x00000276       0x2d ./Output/Kalman_Filter.o
  .ARM.attributes
-                0x000002a3       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
+                0x000002a3       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
  .ARM.attributes
-                0x000002d0       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
+                0x000002d0       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
  .ARM.attributes
-                0x000002fd       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+                0x000002fd       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
  .ARM.attributes
-                0x0000032a       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
+                0x0000032a       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
  .ARM.attributes
-                0x00000357       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
+                0x00000357       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
  .ARM.attributes
-                0x00000384       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
+                0x00000384       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
  .ARM.attributes
-                0x000003a1       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
+                0x000003b1       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
  .ARM.attributes
-                0x000003be       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
+                0x000003de       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
  .ARM.attributes
-                0x000003db       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+                0x0000040b       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
  .ARM.attributes
-                0x000003f8       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
+                0x00000438       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
  .ARM.attributes
-                0x00000415       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
+                0x00000455       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
  .ARM.attributes
-                0x00000432       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+                0x00000472       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
  .ARM.attributes
-                0x0000044f       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
+                0x0000048f       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
  .ARM.attributes
-                0x0000046c       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
+                0x000004ac       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
  .ARM.attributes
-                0x00000489       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
+                0x000004c9       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
  .ARM.attributes
-                0x000004b6       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
+                0x000004e6       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .ARM.attributes
+                0x00000503       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
+ .ARM.attributes
+                0x00000520       0x1d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
+ .ARM.attributes
+                0x0000053d       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
+ .ARM.attributes
+                0x0000056a       0x2d d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-impure.o)
 
-.debug_frame    0x00000000      0xae8
+.debug_frame    0x00000000      0xdd4
  .debug_frame   0x00000000       0x2c ./Output/config.o
- .debug_frame   0x0000002c       0x34 ./Output/main.o
- .debug_frame   0x00000060       0x50 ./Output/startup_STM32F1.o
- .debug_frame   0x000000b0       0x70 ./Output/GPIO_Driver.o
- .debug_frame   0x00000120      0x110 ./Output/I2C_Driver.o
- .debug_frame   0x00000230      0x10c ./Output/MPU_6050_Driver.o
- .debug_frame   0x0000033c       0x90 ./Output/RCC_Driver.o
- .debug_frame   0x000003cc       0x74 ./Output/TIM_Driver.o
- .debug_frame   0x00000440       0xd0 ./Output/Kalman_Filter.o
- .debug_frame   0x00000510       0x38 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
- .debug_frame   0x00000548       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
- .debug_frame   0x00000568       0x34 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
- .debug_frame   0x0000059c       0x30 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
- .debug_frame   0x000005cc       0x7c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
- .debug_frame   0x00000648       0x34 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
- .debug_frame   0x0000067c      0x124 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
- .debug_frame   0x000007a0       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
- .debug_frame   0x000007c0       0x2c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
- .debug_frame   0x000007ec       0x30 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
- .debug_frame   0x0000081c       0x24 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
- .debug_frame   0x00000840       0xac d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
- .debug_frame   0x000008ec       0x50 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
- .debug_frame   0x0000093c       0xc4 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
- .debug_frame   0x00000a00       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
- .debug_frame   0x00000a20       0x24 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
- .debug_frame   0x00000a44       0x4c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
- .debug_frame   0x00000a90       0x38 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
- .debug_frame   0x00000ac8       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)
+ .debug_frame   0x0000002c       0x48 ./Output/handler.o
+ .debug_frame   0x00000074       0x34 ./Output/main.o
+ .debug_frame   0x000000a8       0x50 ./Output/startup_STM32F1.o
+ .debug_frame   0x000000f8       0x30 ./Output/AFIO_Driver.o
+ .debug_frame   0x00000128       0x30 ./Output/EXTI_Driver.o
+ .debug_frame   0x00000158      0x178 ./Output/FLASH_Driver.o
+ .debug_frame   0x000002d0       0x70 ./Output/GPIO_Driver.o
+ .debug_frame   0x00000340      0x110 ./Output/I2C_Driver.o
+ .debug_frame   0x00000450      0x10c ./Output/MPU_6050_Driver.o
+ .debug_frame   0x0000055c       0xa4 ./Output/NVIC_Driver.o
+ .debug_frame   0x00000600       0x90 ./Output/RCC_Driver.o
+ .debug_frame   0x00000690       0x74 ./Output/TIM_Driver.o
+ .debug_frame   0x00000704       0xf8 ./Output/Kalman_Filter.o
+ .debug_frame   0x000007fc       0x38 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_atan.o)
+ .debug_frame   0x00000834       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_fabs.o)
+ .debug_frame   0x00000854       0x34 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_pow.o)
+ .debug_frame   0x00000888       0x30 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-w_sqrt.o)
+ .debug_frame   0x000008b8       0x7c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_pow.o)
+ .debug_frame   0x00000934       0x34 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-e_sqrt.o)
+ .debug_frame   0x00000968      0x124 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-math_err.o)
+ .debug_frame   0x00000a8c       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_finite.o)
+ .debug_frame   0x00000aac       0x2c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libm.a(lib_a-s_scalbn.o)
+ .debug_frame   0x00000ad8       0x30 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldf3.o)
+ .debug_frame   0x00000b08       0x24 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_mulsf3.o)
+ .debug_frame   0x00000b2c       0xac d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubdf3.o)
+ .debug_frame   0x00000bd8       0x50 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivdf3.o)
+ .debug_frame   0x00000c28       0xc4 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_cmpdf2.o)
+ .debug_frame   0x00000cec       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_unorddf2.o)
+ .debug_frame   0x00000d0c       0x24 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_fixdfsi.o)
+ .debug_frame   0x00000d30       0x4c d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_addsubsf3.o)
+ .debug_frame   0x00000d7c       0x38 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/thumb/v7-m/nofp\libgcc.a(_arm_muldivsf3.o)
+ .debug_frame   0x00000db4       0x20 d:/gcc_arm_msys2/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/thumb/v7-m/nofp\libc.a(lib_a-errno.o)

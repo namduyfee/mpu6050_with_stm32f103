@@ -48,6 +48,7 @@
         "mthumb",
         "nofp",
         "nostartfiles",
+        "NVIC",
         "OPTKEYR",
         "OTGFSPRE",
         "PCLK",

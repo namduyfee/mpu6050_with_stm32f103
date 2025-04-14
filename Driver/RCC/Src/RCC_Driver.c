@@ -210,8 +210,8 @@ static void set_sys_clock_to_72(void)
 void enable_clock_peripherals(void) 
 {
   RCC->APB2ENR |= RCC_APB2ENR_IOPCEN; 
-  RCC->APB1ENR |= RCC_APB1ENR_TIM4; 
-  RCC->APB1ENR |= RCC_APB1ENR_I2C1; 
+  RCC->APB1ENR |= RCC_APB1ENR_TIM4EN; 
+  RCC->APB1ENR |= RCC_APB1ENR_I2C1EN; 
 }
 
 

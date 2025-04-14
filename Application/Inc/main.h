@@ -22,6 +22,9 @@
 #include "MPU_6050_Driver.h"
 #include "Kalman_Filter.h"
 #include "config.h"
+#include "EXTI_Driver.h"
+#include "AFIO_Driver.h"
+#include "NVIC_Driver.h"
 
 #endif
 

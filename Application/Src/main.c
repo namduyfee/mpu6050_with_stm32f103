@@ -6,9 +6,14 @@ void main(void)
 {
 
     config_STM32F1();
-
+    
     while(1) {
 
+        if(enableSample == 1) {
+            sample_kalman_filter_init_accel(); 
+            enableSample = 0; 
+        }
+        
         mpu_read_accel_all(); 
 
 		Accel.xKalman = Kalman_update(&kf_x_accel, Accel.xReal);
